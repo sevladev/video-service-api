@@ -9,7 +9,13 @@ import cors from "cors";
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 const s3 = new AWS.S3({
   endpoint: process.env.AWS_S3_ENDPOINT,
@@ -106,6 +112,7 @@ app.get("/video/:key", (req: Request, res: Response) => {
       "Accept-Ranges": "bytes",
       "Content-Length": chunksize,
       "Content-Type": "video/mp4",
+      "Access-Control-Allow-Origin": "*",
     });
 
     const videoStream = s3.getObject(streamParams).createReadStream();
