@@ -75,7 +75,6 @@ app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
     }
     return res.json({
       message: "Upload successful",
-      data: data,
       key,
     });
   });
