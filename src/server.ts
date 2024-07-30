@@ -19,8 +19,6 @@ app.use(
 
 app.use((req, res, next) => {
   const referrer = req.get("Referrer");
-
-  console.log(referrer);
   if (referrer && referrer.startsWith("http://localhost:3000")) {
     next();
   } else {
@@ -64,7 +62,6 @@ app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   managedUpload.on("httpUploadProgress", (progress) => {
     const loaded = progress.loaded;
     const percentage = Math.round((loaded / fileSize) * 100);
-
     console.log(`Uploaded ${loaded} bytes (${percentage}%)`);
   });
 
@@ -85,8 +82,6 @@ app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
 });
 
 app.get("/video/:key", (req: Request, res: Response) => {
-  console.log("ok");
-
   const { key } = req.params;
 
   const params: AWS.S3.GetObjectRequest = {
