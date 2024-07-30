@@ -17,6 +17,17 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  const referrer = req.get("Referrer");
+
+  console.log(referrer);
+  if (referrer && referrer.startsWith("http://localhost:3000")) {
+    next();
+  } else {
+    res.status(403).send("Forbidden");
+  }
+});
+
 const s3 = new AWS.S3({
   endpoint: process.env.AWS_S3_ENDPOINT,
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -74,6 +85,8 @@ app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
 });
 
 app.get("/video/:key", (req: Request, res: Response) => {
+  console.log("ok");
+
   const { key } = req.params;
 
   const params: AWS.S3.GetObjectRequest = {
