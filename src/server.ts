@@ -113,6 +113,8 @@ app.get("/video/:key", (req: Request, res: Response) => {
       "Content-Length": chunksize,
       "Content-Type": "video/mp4",
       "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept, pragma, cache-control, Referrer-Policy",
     });
 
     const videoStream = s3.getObject(streamParams).createReadStream();
